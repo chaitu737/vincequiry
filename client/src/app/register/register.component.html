@@ -1,0 +1,79 @@
+<h1 class="page-header">VinCampus Enquiry Form</h1>
+
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+
+
+<div class="example-container">
+    <form class="example-container" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+   <input matInput placeholder="Enter your email" formControlName="email" >
+   <mat-error *ngIf="form.controls['email'].errors?.email && !form.controls['email'].errors?.required">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="form.controls['email'].errors?.required">
+      Email is <strong>required</strong>
+    </mat-error>
+     </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Enter your fullname" formControlName="fullName" required>
+    
+  </mat-form-field>
+  
+  <mat-form-field>
+    <input matInput placeholder="Enter your fathername" formControlName="fatherName" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Enter your mothername" formControlName="motherName" required>
+  </mat-form-field>
+
+<mat-form-field>
+  <input  matInput placeholder="Enter your mobilenumber" type="number" formControlName="mobilenumber" required>
+</mat-form-field>
+
+<label>Gender: </label>
+      <mat-radio-group formControlName="Gender">
+        <mat-radio-button value="male">Male</mat-radio-button>
+        <mat-radio-button value="female">Female</mat-radio-button>
+        <mat-radio-button value="others">Others</mat-radio-button>
+      </mat-radio-group>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Textarea"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Select">
+      <mat-option value="option">Option</mat-option>
+      <mat-option value="AI">AI</mat-option>
+      <mat-option value="IOT">IOT</mat-option>
+      <mat-option value="BlockChain">BlockChain</mat-option> 
+    </mat-select>
+  </mat-form-field>
+
+
+
+  <div>
+    <div>
+      <input type="file" (change)="createFormData($event)">
+    </div>
+    <button (click)="upload()">Upload</button>
+  </div>
+<br>
+<br>
+<div class="example-button-row">
+  <button type="submit" mat-button color="warn">Register</button>
+</div>
+
+
+
+
+</form>  
+</div>
