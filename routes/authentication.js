@@ -5,6 +5,8 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const pdf = require('pdfkit');
 const myDoc  = new pdf;
+
+
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req,file,cb){
@@ -91,34 +93,48 @@ router.post('/register',upload.single('file'), [
               res.json({success:false, message:'Unable to save the user Error:', err})
          }else{
              const output =`
-             <p>You have a new Student Registered</p>
-             <h3>Student Details</h3>
-             <ul>
-             <li>FullName: ${req.body.fullName}</li>
-             <li>Email: ${req.body.email}</li>
-             <li>Phone: ${req.body.mobilenumber}</li>
-             <li>FatherName:${req.body.fatherName}</li>
-             <li>MotherName: ${req.body.motherName}</li>
-            
-             </ul>
-              `;
+             FullName: ${req.body.fullName}
+             Email: ${req.body.email}
+             Phone: ${req.body.mobilenumber}
+             FatherName:${req.body.fatherName}
+             MotherName: ${req.body.motherName}
+            `;
 
-                myDoc.pipe(fs.createWriteStream('output.pdf'));
-                myDoc.font('Times-Roman')
-                .fontSize(24)
-                .text(output);
+              const pdfArr = [];
+            student.forEach(s =>{
+              console.log(s)
+                pdfArr.push(new pdf())
+                pdfArr.forEach(p=>{
+                  p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
+                  p.fontSize(25).text(output)
+                  
+                  p.image(imagepath,428,150,{
+                    fit:[100,100],
+                    align:'right',
+                    valign: 'center'
+                  })
 
-                var imagepath ="./uploads/" + req.file.filename ;
+                })
+                p.end();
+             })
 
-                 myDoc.image(imagepath,428,150,{
-                   fit:[100,100],
-                   align:'right',
-                   valign: 'center',
-                 });
+                // let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
+                // myDoc.pipe(stream);
+                // myDoc.font('Times-Roman')
+                // .fontSize(24)
+                // .text(output);
+
+                // var imagepath ="./uploads/" + req.file.filename ;
+
+                //  myDoc.image(imagepath,428,150,{
+                //    fit:[100,100],
+                //    align:'right',
+                //    valign: 'center',
+                //  });
 
 
 
-                myDoc.end();
+                // myDoc.end();
 
 
               //         var transporter = nodemailer.createTransport({
@@ -131,15 +147,17 @@ router.post('/register',upload.single('file'), [
               
               // var mailOptions = {
               //   from: 'sahal737@gmail.com',
-              //   to:  'vincampus@vinfoocde.com',
+              //   to:  'vincampus@vinfocode.com',
               //   subject: 'Regarding Student Registration',
-              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
+              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Check the pdf attached.',
               //   html: output,
               //   attachments:[
               //     {
-              //       filename: req.file.originalname,
-              //       path:'./uploads/' + req.file.filename
-              //     },
+              //       filename: 'output.pdf',
+              //       path:'./Studentpdf/'+req.body.fullName+'.pdf',
+              //       contentType:'application/pdf'
+        
+              //     }
               //   ]
               // };
               
@@ -165,6 +183,7 @@ router.post('/register',upload.single('file'), [
               //   subject: 'Regarding Student Registration',
               //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
               //   html: '<h1>Congratualtions On registering for Vincampus</h1>'
+
               // };
               
               // transporter.sendMail(mailOptions, function(error, info){
