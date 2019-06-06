@@ -3,6 +3,8 @@ const config = require('../config/database');
 const { check, validationResult } = require('express-validator/check');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
+const pdf = require('pdfkit');
+const myDoc  = new pdf;
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req,file,cb){
@@ -26,8 +28,6 @@ const upload = multer({storage: storage, limits:{
 },
 fileFilter:fileFilter
 });
-
-
 
 
 
@@ -57,7 +57,7 @@ router.post('/upload',upload.single('file'),(req,res)=>{
 
 
 
-router.post('/register', [
+router.post('/register',upload.single('file'), [
     check('fullName').isAlphanumeric().isLength({mn:1}).withMessage('FullName is required'),
     check('email').isEmail().isLength({min:1}).withMessage('Email is required'),
     check('fatherName').isAlpha().withMessage('Father name is required'),
@@ -79,7 +79,8 @@ router.post('/register', [
          fatherName:req.body.fatherName,
          motherName:req.body.motherName,
          mobilenumber:req.body.mobilenumber,
-         fullName : req.body.fullName
+         fullName : req.body.fullName,
+         file:req.file
          
          
      });
@@ -102,60 +103,77 @@ router.post('/register', [
              </ul>
               `;
 
+                myDoc.pipe(fs.createWriteStream('output.pdf'));
+                myDoc.font('Times-Roman')
+                .fontSize(24)
+                .text(output);
 
-                      var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                  user: 'dummymail6674@gmail.com',
-                  pass: 'santhu@51'
-                }
-              });
-              
-              var mailOptions = {
-                from: 'sahal737@gmail.com',
-                to:  'vincampus@vinfoocde.com',
-                subject: 'Regarding Student Registration',
-                text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
-                html: output,
-                // attachments:[
-                //   {
-                //     filename: req.file.originalname,
-                //     path:'./uploads/' + req.file.filename
-                //   },
-                // ]
-              };
-              
-              transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log('Email sent: ' + info.response);
-                }
-              });
+                var imagepath ="./uploads/" + req.file.filename ;
 
-              var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                  user: 'dummymail6674@gmail.com',
-                  pass: 'santhu@51'
-                }
-              });
+                 myDoc.image(imagepath,428,150,{
+                   fit:[100,100],
+                   align:'right',
+                   valign: 'center',
+                 });
+
+
+
+                myDoc.end();
+
+
+              //         var transporter = nodemailer.createTransport({
+              //   service: 'gmail',
+              //   auth: {
+              //     user: 'dummymail6674@gmail.com',
+              //     pass: 'santhu@51'
+              //   }
+              // });
               
-              var mailOptions = {
-                from: 'VinCampus <vincampus@vinfocode.com>',
-                to:  req.body.email,
-                subject: 'Regarding Student Registration',
-                text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
-                html: '<h1>Congratualtions On registering for Vincampus</h1>'
-              };
+              // var mailOptions = {
+              //   from: 'sahal737@gmail.com',
+              //   to:  'vincampus@vinfoocde.com',
+              //   subject: 'Regarding Student Registration',
+              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
+              //   html: output,
+              //   attachments:[
+              //     {
+              //       filename: req.file.originalname,
+              //       path:'./uploads/' + req.file.filename
+              //     },
+              //   ]
+              // };
               
-              transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log('Email sent: ' + info.response);
-                }
-              });
+              // transporter.sendMail(mailOptions, function(error, info){
+              //   if (error) {
+              //     console.log(error);
+              //   } else {
+              //     console.log('Email sent: ' + info.response);
+              //   }
+              // });
+
+              // var transporter = nodemailer.createTransport({
+              //   service: 'gmail',
+              //   auth: {
+              //     user: 'dummymail6674@gmail.com',
+              //     pass: 'santhu@51'
+              //   }
+              // });
+              
+              // var mailOptions = {
+              //   from: 'VinCampus <vincampus@vinfocode.com>',
+              //   to:  req.body.email,
+              //   subject: 'Regarding Student Registration',
+              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
+              //   html: '<h1>Congratualtions On registering for Vincampus</h1>'
+              // };
+              
+              // transporter.sendMail(mailOptions, function(error, info){
+              //   if (error) {
+              //     console.log(error);
+              //   } else {
+              //     console.log('Email sent: ' + info.response);
+              //   }
+              // });
 
     
                
