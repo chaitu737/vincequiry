@@ -100,41 +100,41 @@ router.post('/register',upload.single('file'), [
              MotherName: ${req.body.motherName}
             `;
 
-              const pdfArr = [];
-            student.forEach(s =>{
-              console.log(s)
-                pdfArr.push(new pdf())
-                pdfArr.forEach(p=>{
-                  p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
-                  p.fontSize(25).text(output)
-                  
-                  p.image(imagepath,428,150,{
-                    fit:[100,100],
-                    align:'right',
-                    valign: 'center'
-                  })
+          //     const pdfArr = [];
+          //  Object.values(student).forEach(s =>{
+          
+          //       pdfArr.push(new pdf())
+          //       pdfArr.forEach(p=>{
+          //         p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
+          //         p.fontSize(25).text(output)
+          //          var imagepath ="./uploads/" + req.file.filename ;
+          //         p.image(imagepath,428,150,{
+          //           fit:[100,100],
+          //           align:'right',
+          //           valign: 'center'
+          //         })
+          //         p.end();
+          //       })
+                
+          //   })
 
-                })
-                p.end();
-             })
+                let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
+                myDoc.pipe(stream);
+                myDoc.font('Times-Roman')
+                .fontSize(24)
+                .text(output);
 
-                // let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
-                // myDoc.pipe(stream);
-                // myDoc.font('Times-Roman')
-                // .fontSize(24)
-                // .text(output);
+               var imagepath ="./uploads/" + req.file.filename ;
 
-                // var imagepath ="./uploads/" + req.file.filename ;
-
-                //  myDoc.image(imagepath,428,150,{
-                //    fit:[100,100],
-                //    align:'right',
-                //    valign: 'center',
-                //  });
+                 myDoc.image(imagepath,428,150,{
+                   fit:[100,100],
+                   align:'right',
+                   valign: 'center',
+                 });
 
 
 
-                // myDoc.end();
+                myDoc.end();
 
 
               //         var transporter = nodemailer.createTransport({
