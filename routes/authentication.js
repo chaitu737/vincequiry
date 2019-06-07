@@ -93,7 +93,7 @@ router.post('/register',upload.single('file'), [
               res.json({success:false, message:'Unable to save the user Error:', err})
          }else{
              const output =`
-             FullName: ${req.body.fullName}
+             FullName: ${req.body.fullName} 
              Email: ${req.body.email}
              Phone: ${req.body.mobilenumber}
              FatherName:${req.body.fatherName}
@@ -135,6 +135,60 @@ router.post('/register',upload.single('file'), [
 
 
                 myDoc.end();
+
+            var arr = [];
+            for(key in JSON.parse(JSON.stringify(student))){
+              console.log(JSON.parse(JSON.stringify(student)))
+            
+          
+            }
+
+            console.log(arr);
+
+
+          
+
+
+
+      
+     
+
+              const pdfArr = [];
+            arr.forEach(s =>{
+              
+                pdfArr.forEach(p=>{
+                p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
+                  p.fontSize(25).text(output)
+                    var imagepath ="./uploads/" + req.file.filename ;
+                  p.image(imagepath,428,150,{
+                    fit:[100,100],
+                    align:'right',
+                    valign: 'center'
+                  })
+                  p.end();
+                  pdfArr.push(p);
+                })
+               
+                
+              })
+
+                // let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
+                // myDoc.pipe(stream);
+                // myDoc.font('Times-Roman')
+                // .fontSize(24)
+                // .text(output);
+
+                // var imagepath ="./uploads/" + req.file.filename ;
+
+                //  myDoc.image(imagepath,428,150,{
+                //    fit:[100,100],
+                //    align:'right',
+                //    valign: 'center',
+                //  });
+
+
+
+                //   myDoc.end();
 
 
               //         var transporter = nodemailer.createTransport({
