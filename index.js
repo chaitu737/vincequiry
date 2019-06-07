@@ -27,7 +27,11 @@ app.all('*', (req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/authentication', authentication);
-
+// app.use(compress({
+//     flush: require('zlib').Z_SYNC_FLUSH
+//   }))
+//   .use(conditional())
+//   .use(etag())
 app.get('/',(req,res)=>{
     res.send('Project is ready')
 });
