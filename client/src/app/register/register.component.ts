@@ -1,9 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from '@angular/router';
 import { StudentService } from '../Services/student.service';
 
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+export function toFormData<T>(formValue:T){
+  const fd = new FormData();
+for(const key of Object.keys(formValue)){
+  const value = formValue[key];
+
+  fd.append(key, value);
+}
+return fd;
+
+}
 
 @Component({
   selector: 'app-register',
@@ -15,11 +28,12 @@ export class RegisterComponent implements OnInit {
   messageClass;
   message;
   studentDetails: any={};
-  url= "http://localhost:3000/authentication/upload"
+  url= "http://localhost:3000/authentication/register"
 
   selectedFile: File = null;
-  fd = new FormData();
-  imageUploaded: any;
+
+  
+
 
   
 
@@ -30,10 +44,11 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private studentService: StudentService,
-    private http: HttpClient
+    private http: HttpClient,
+    
   ) { 
     this.createForm();
-  }
+    }
 
   createForm(){
     this.form = this.formBuilder.group({
@@ -54,11 +69,10 @@ export class RegisterComponent implements OnInit {
       ])],
       Gender: ['', Validators.compose([
         Validators.required
-      ])]
+      ])],
+      file:[null, Validators.required]
 
-
-
-    })
+})
 
   }
 
@@ -69,22 +83,11 @@ export class RegisterComponent implements OnInit {
       motherName: this.form.get('motherName').value,
       fatherName: this.form.get('fatherName').value,
       mobilenumber: this.form.get('mobilenumber').value,
-        
-
-    }
-    
-
-
-
-    
-
- 
-    
-    this.studentService.getDetails(student).subscribe(data =>{
-      console.log(data)
-    
+      file: this.selectedFile
+}
+this.studentService.getDetails( toFormData(student)).subscribe(data =>{
       
-      this.studentDetails = data;
+     this.studentDetails = data;
       if (!this.studentDetails.success) {
         this.messageClass = 'alert alert-danger'; // Set an error class
         this.message = this.studentDetails.message; // Set an error message
@@ -98,23 +101,21 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  createFormData(event){
-    this.selectedFile = <File>event.target.files[0];
-    this.fd.append('file', this.selectedFile, this.selectedFile.name);
-  }
+  onFileChange(event){
+if (event.target.files && event.target.files.length) {
+    const [selectedFile] = event.target.files;
+     this.selectedFile = selectedFile;
+    }
 
   
-  upload(){
-    this.http.post(this.url, this.fd)
-    .subscribe( result => {
-      console.log(result)
-    });
-  }
-
-
   
 
-  ngOnInit() {
   }
+  
+
+  ngOnInit() {  }
+
+  
+  
 
 }

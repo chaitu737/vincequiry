@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+const HttpUploadOptions = {
+  headers: new HttpHeaders({ "Content-Type": undefined })
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class StudentService {
   domain = "http://localhost:3000/";
+  formData;
+  
 
   constructor(
     private http: HttpClient
   ) { }
 
 
+  
 
-getDetails(user){
-  return this.http.post(this.domain + 'authentication/register', user).map(res =>res)
+
+
+getDetails(student){
+  let headers = new HttpHeaders()
+  return this.http.post(this.domain + 'authentication/register',student ).map(res =>res)
 }
 
 

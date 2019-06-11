@@ -1,4 +1,4 @@
-<h1 class="page-header">VinCampus Enquiry Form</h1>
+<h1 class="page-header">Student Enquiry Form</h1>
 
 <!-- Custom Success/Error Message -->
 <div class="row show-hide-message">
@@ -59,21 +59,28 @@
   </mat-form-field>
 
 
+  <input type="file" (change)="onFileChange($event)" />
+  
 
+  <br>
+  <div class="example-button-row">
+    <button type="submit" mat-raised-button color="primary">Register</button>
+  </div>
+
+
+</form>
   <div>
     <div>
-      <input type="file" (change)="createFormData($event)">
+
+       
+      <!-- <input type="file" (change)="createFormData($event)">
     </div>
     <button (click)="upload()">Upload</button>
-  </div>
+  </div> -->
+
+
 <br>
 <br>
-<div class="example-button-row">
-  <button type="submit" mat-button color="warn">Register</button>
-</div>
 
 
-
-
-</form>  
 </div>

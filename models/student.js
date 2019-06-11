@@ -6,6 +6,7 @@ const studentSchema = new Schema({
     fatherName: { type: String, required: true, unique: false},
     motherName: { type: String, required: true, unique: false},
     mobilenumber:{type: Number, required: true, unique: true},
+     file:{data: Buffer, contentType:String}
     
 
 });

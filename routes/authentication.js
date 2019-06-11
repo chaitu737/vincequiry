@@ -3,8 +3,8 @@ const config = require('../config/database');
 const { check, validationResult } = require('express-validator/check');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const pdf = require('pdfkit');
-const myDoc  = new pdf;
+const PDFDocument = require('pdfkit');
+
 
 
 const multer = require('multer');
@@ -43,15 +43,30 @@ router.get('/',(req,res)=>{
 });
 
 
-router.post('/upload',upload.single('file'),(req,res)=>{
-  console.log(req.file);
-   if(!req.file){
-     res.json({success: false, message: 'Please upload file'})
-   }else{
-    res.json({ success: true, message: 'Image uploaded successfully'})
-   }
-  
-})
+
+
+
+
+// router.post('/login',(req,res)=>{
+//   if(!req.body.email){
+//     res.json({success: false, message: 'Enter the valid email'})
+//   }else{
+//     if(!req.body.password){
+//       res.json({success:false, message: 'Enter the password'})
+//     }else{
+
+//       if(req.body.email!==UserSchema.email){
+//         res.json({ success: false, message: 'Enter the current email address'})
+//       }else{
+//         if(req.body.password!==UserSchema.password){
+//           res.json({success: false, message: 'Enter the correct password'})
+//         }else{
+//           res.json({success: true, message: 'Login Successful'})
+//         }
+//       }
+//   }
+// }
+// })
 
 
 
@@ -70,6 +85,7 @@ router.post('/register',upload.single('file'), [
   (req,res)=>{
   
 
+
     const errors=validationResult(req);
      if(!errors.isEmpty()){
          return res.status(422).json({errors:errors.array()})
@@ -83,7 +99,6 @@ router.post('/register',upload.single('file'), [
          mobilenumber:req.body.mobilenumber,
          fullName : req.body.fullName,
          file:req.file
-         
          
      });
 
@@ -99,167 +114,90 @@ router.post('/register',upload.single('file'), [
              FatherName:${req.body.fatherName}
              MotherName: ${req.body.motherName}
             `;
-
-          //     const pdfArr = [];
-          //  Object.values(student).forEach(s =>{
-          
-          //       pdfArr.push(new pdf())
-          //       pdfArr.forEach(p=>{
-          //         p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
-          //         p.fontSize(25).text(output)
-          //          var imagepath ="./uploads/" + req.file.filename ;
-          //         p.image(imagepath,428,150,{
-          //           fit:[100,100],
-          //           align:'right',
-          //           valign: 'center'
-          //         })
-          //         p.end();
-          //       })
-                
-          //   })
-
-                let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
-                myDoc.pipe(stream);
-                myDoc.font('Times-Roman')
-                .fontSize(24)
-                .text(output);
-
-               var imagepath ="./uploads/" + req.file.filename ;
-
-                 myDoc.image(imagepath,428,150,{
-                   fit:[100,100],
-                   align:'right',
-                   valign: 'center',
-                 });
-
-
-
-                myDoc.end();
-
-            var arr = [];
-            for(key in JSON.parse(JSON.stringify(student))){
-              console.log(JSON.parse(JSON.stringify(student)))
-            
-          
-            }
-
-            console.log(arr);
-
-
-          
-
-
-
-      
-     
-
-              const pdfArr = [];
-            arr.forEach(s =>{
-              
-                pdfArr.forEach(p=>{
-                p.pipe(fs.createWriteStream(`./Studentpdf/$(s.fullName}.pdf`))
-                  p.fontSize(25).text(output)
-                    var imagepath ="./uploads/" + req.file.filename ;
-                  p.image(imagepath,428,150,{
+               async function createPdf() {
+              return new Promise((resolve, reject) => {
+                  const doc = new PDFDocument({ size: 'A4' });  // Create a new instance 
+                  const fileName = `./Studentpdf/${req.body.fullName}.pdf`;
+                  let stream = fs.createWriteStream(fileName);
+                  doc.pipe(stream);
+                  doc.text(output)
+                  var imagepath ="./uploads/" + req.file.filename ;
+                  doc.image(imagepath,428,150,{
                     fit:[100,100],
                     align:'right',
-                    valign: 'center'
-                  })
-                  p.end();
-                  pdfArr.push(p);
-                })
-               
-                
-              })
+                    valign: 'center',
+                                   });
+                  doc.end();
+                  resolve({ fileName, stream });
+              });
+          
+          }
 
-                // let stream =fs.createWriteStream(`./Studentpdf/${req.body.fullName}.pdf`);
-                // myDoc.pipe(stream);
-                // myDoc.font('Times-Roman')
-                // .fontSize(24)
-                // .text(output);
-
-                // var imagepath ="./uploads/" + req.file.filename ;
-
-                //  myDoc.image(imagepath,428,150,{
-                //    fit:[100,100],
-                //    align:'right',
-                //    valign: 'center',
-                //  });
-
-
-
-                //   myDoc.end();
-
-
-              //         var transporter = nodemailer.createTransport({
-              //   service: 'gmail',
-              //   auth: {
-              //     user: 'dummymail6674@gmail.com',
-              //     pass: 'santhu@51'
-              //   }
-              // });
+          createPdf();
+          // var transporter = nodemailer.createTransport({
+          //       service: 'gmail',
+          //       auth: {
+          //         user: 'dummymail6674@gmail.com',
+          //         pass: 'santhu@51'
+          //       }
+          //     });
               
-              // var mailOptions = {
-              //   from: 'sahal737@gmail.com',
-              //   to:  'vincampus@vinfocode.com',
-              //   subject: 'Regarding Student Registration',
-              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Check the pdf attached.',
-              //   html: output,
-              //   attachments:[
-              //     {
-              //       filename: 'output.pdf',
-              //       path:'./Studentpdf/'+req.body.fullName+'.pdf',
-              //       contentType:'application/pdf'
+          //     var mailOptions = { 
+          //       from: 'sahal737@gmail.com',
+          //       to:  'vincampus@vinfocode.com',
+          //       subject: 'Regarding Student Registration',
+          //       text: 'A student is registered for Vincampus Artificial Intelligence Program Please Check the pdf attached.',
+          //       html: output,
+          //       attachments:[
+          //         {
+          //           filename: 'output.pdf',
+          //           path:'./Studentpdf/'+req.body.fullName+'.pdf',
+          //           contentType:'application/pdf'
         
-              //     }
-              //   ]
-              // };
+          //         }
+          //       ]
+          //     };
               
-              // transporter.sendMail(mailOptions, function(error, info){
-              //   if (error) {
-              //     console.log(error);
-              //   } else {
-              //     console.log('Email sent: ' + info.response);
-              //   }
-              // });
+          //     transporter.sendMail(mailOptions, function(error, info){
+          //       if (error) {
+          //         console.log(error);
+          //       } else {
+          //         console.log('Email sent: ' + info.response);
+          //       }
+          //     });
 
-              // var transporter = nodemailer.createTransport({
-              //   service: 'gmail',
-              //   auth: {
-              //     user: 'dummymail6674@gmail.com',
-              //     pass: 'santhu@51'
-              //   }
-              // });
+          //     var transporter = nodemailer.createTransport({
+          //       service: 'gmail',
+          //       auth: {
+          //         user: 'dummymail6674@gmail.com',
+          //         pass: 'santhu@51'
+          //       }
+          //     });
               
-              // var mailOptions = {
-              //   from: 'VinCampus <vincampus@vinfocode.com>',
-              //   to:  req.body.email,
-              //   subject: 'Regarding Student Registration',
-              //   text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
-              //   html: '<h1>Congratualtions On registering for Vincampus</h1>'
+          //     var mailOptions = {
+          //       from: 'VinCampus <vincampus@vinfocode.com>',
+          //       to:  req.body.email,
+          //       subject: 'Regarding Student Registration',
+          //       text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
+          //       html: '<h1>Congratualtions On registering for Vincampus</h1>'
 
-              // };
+          //     };
               
-              // transporter.sendMail(mailOptions, function(error, info){
-              //   if (error) {
-              //     console.log(error);
-              //   } else {
-              //     console.log('Email sent: ' + info.response);
-              //   }
-              // });
+          //     transporter.sendMail(mailOptions, function(error, info){
+          //       if (error) {
+          //         console.log(error);
+          //       } else {
+          //         console.log('Email sent: ' + info.response);
+          //       }
+          //     });
 
     
-               
+                
             res.json({success:true, message:'Student Registered '})
 
           }
      })
 
 });
-
-
-
-
-
 return router;
-}
+} 

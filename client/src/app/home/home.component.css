@@ -1,0 +1,51 @@
+.container{
+    height: 40em;
+    background-size: cover;
+    width: auto;
+    background-image: url(https://images.pexels.com/photos/908284/pexels-photo-908284.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=940);
+    background-position: 50% 50%;
+}
+
+.container .text{
+    text-align: center;
+    position: relative;
+   top:100px 
+}
+
+h1{
+    color:orange;
+    font-size: 50px;
+}
+h1 {
+  color: rgb(158, 105, 37);
+  text-shadow: 2px 2px 4px #000000;
+}
+h2{
+    color: lightcoral;
+    position: relative;
+    top: 80px;
+    text-align: center;
+}
+
+.example-button-row button,        
+.example-button-row a {
+
+  top:200px;
+
+
+}
+
+ .container .btn{
+     position: absolute;
+  float: left;
+  top:50%;
+  left:45%;
+}
+
+.container .btn-primary{
+    position:absolute;
+    float: left;
+    top:50%;
+    left: 50%;
+
+}

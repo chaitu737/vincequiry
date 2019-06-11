@@ -27,6 +27,7 @@ app.all('*', (req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/authentication', authentication);
+app.use('/uploads',express.static('uploads'))
 // app.use(compress({
 //     flush: require('zlib').Z_SYNC_FLUSH
 //   }))
