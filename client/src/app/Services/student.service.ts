@@ -11,7 +11,7 @@ const HttpUploadOptions = {
 export class StudentService {
   domain = "http://localhost:3000/";
   formData;
-  
+   selectedFile: File = null;
 
   constructor(
     private http: HttpClient

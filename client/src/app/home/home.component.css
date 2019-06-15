@@ -12,6 +12,19 @@
    top:100px 
 }
 
+
+swiper{
+  height: 250px;
+  width: 80%;
+  margin: auto;
+}
+
+.swiper-slide img{
+  
+      width: 100%;
+  
+}
+
 h1{
     color:orange;
     font-size: 50px;

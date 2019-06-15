@@ -134,62 +134,62 @@ router.post('/register',upload.single('file'), [
           }
 
           createPdf();
-          // var transporter = nodemailer.createTransport({
-          //       service: 'gmail',
-          //       auth: {
-          //         user: 'dummymail6674@gmail.com',
-          //         pass: 'santhu@51'
-          //       }
-          //     });
+          var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'dummymail6674@gmail.com',
+                  pass: 'santhu@51'
+                }
+              });
               
-          //     var mailOptions = { 
-          //       from: 'sahal737@gmail.com',
-          //       to:  'vincampus@vinfocode.com',
-          //       subject: 'Regarding Student Registration',
-          //       text: 'A student is registered for Vincampus Artificial Intelligence Program Please Check the pdf attached.',
-          //       html: output,
-          //       attachments:[
-          //         {
-          //           filename: 'output.pdf',
-          //           path:'./Studentpdf/'+req.body.fullName+'.pdf',
-          //           contentType:'application/pdf'
+              var mailOptions = { 
+                from: 'sahal737@gmail.com',
+                to:  'vincampus@vinfocode.com',
+                subject: 'Regarding Student Registration',
+                text: 'A student is registered for Vincampus Artificial Intelligence Program Please Check the pdf attached.',
+                html: output,
+                attachments:[
+                  {
+                    filename: 'output.pdf',
+                    path:'./Studentpdf/'+req.body.fullName+'.pdf',
+                    contentType:'application/pdf'
         
-          //         }
-          //       ]
-          //     };
+                  }
+                ]
+              };
               
-          //     transporter.sendMail(mailOptions, function(error, info){
-          //       if (error) {
-          //         console.log(error);
-          //       } else {
-          //         console.log('Email sent: ' + info.response);
-          //       }
-          //     });
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
 
-          //     var transporter = nodemailer.createTransport({
-          //       service: 'gmail',
-          //       auth: {
-          //         user: 'dummymail6674@gmail.com',
-          //         pass: 'santhu@51'
-          //       }
-          //     });
+              var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                  user: 'dummymail6674@gmail.com',
+                  pass: 'santhu@51'
+                }
+              });
               
-          //     var mailOptions = {
-          //       from: 'VinCampus <vincampus@vinfocode.com>',
-          //       to:  req.body.email,
-          //       subject: 'Regarding Student Registration',
-          //       text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
-          //       html: '<h1>Congratualtions On registering for Vincampus</h1>'
+              var mailOptions = {
+                from: 'VinCampus <vincampus@vinfocode.com>',
+                to:  req.body.email,
+                subject: 'Regarding Student Registration',
+                text: 'A student is registered for Vincampus Artificial Intelligence Program Please Take care of him.',
+                html: '<h1>Congratualtions On registering for Vincampus</h1>'
 
-          //     };
+              };
               
-          //     transporter.sendMail(mailOptions, function(error, info){
-          //       if (error) {
-          //         console.log(error);
-          //       } else {
-          //         console.log('Email sent: ' + info.response);
-          //       }
-          //     });
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
 
     
                 

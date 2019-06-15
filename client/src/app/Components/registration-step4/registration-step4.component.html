@@ -1,0 +1,23 @@
+<div id="personal-details" [formGroup]="regForm">
+    <div class="form-group col-md-4" formGroupName="EducationalDetails">
+      <label>SSC*</label>
+      <input type="number" class="form-control" formControlName="SSC">
+    </div>
+    <div class="form-group col-md-4" formGroupName="EducationalDetails">
+      <label>Intermediate</label>
+      <input type="number" class="form-control" formControlName="Inter">
+    </div>
+    <div class="form-group col-md-4" formGroupName="EducationalDetails">
+      <label>Graduation*</label>
+      <input type="number" class="form-control" formControlName="Degree">
+    </div>
+    <div class="form-group col-md-4" formGroupName="EducationalDetails">
+        <label>POSTGRADUATION</label>
+        <input type="number" class="form-control" formControlName="PG">
+      </div>
+
+  </div>
+  <br/>
+  <mat-dialog-actions>
+  <button mat-button  matStepperNext (click)="step4Submitted()">Next</button>
+  </mat-dialog-actions>

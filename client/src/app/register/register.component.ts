@@ -1,22 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup } from "@angular/forms";
-import { Router } from '@angular/router';
-import { StudentService } from '../Services/student.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators,  FormGroup } from "@angular/forms";
 
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-
-export function toFormData<T>(formValue:T){
-  const fd = new FormData();
-for(const key of Object.keys(formValue)){
-  const value = formValue[key];
-
-  fd.append(key, value);
-}
-return fd;
-
-}
 
 @Component({
   selector: 'app-register',
@@ -24,98 +8,40 @@ return fd;
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  form: FormGroup;
-  messageClass;
-  message;
-  studentDetails: any={};
-  url= "http://localhost:3000/authentication/register"
 
-  selectedFile: File = null;
+  registrationForm: FormGroup;
+   constructor() { 
+   
+    }
 
-  
+   
 
 
-  
+  ngOnInit() { 
 
-  
+    this.registrationForm = new FormGroup({
+      'personalDetails': new FormGroup({
+        'fullName': new FormControl(null, Validators.required),
+        'fatherName': new FormControl(null,Validators.required),
+        'motherName': new FormControl(null, Validators.required),
+        "file": new FormControl(null, Validators.required)
+      }),
+      'contactDetails': new FormGroup({
+        'email': new FormControl(null, [Validators.required, Validators.email]),
+        'mobilenumber': new FormControl(null,Validators.required)
+      }),
+      'EducationalDetails': new FormGroup({
+        "SSC": new FormControl(null, Validators.required),
+        "Inter": new FormControl(null,Validators.required),
+        "Degree": new FormControl(null, Validators.required),
+        "PG": new FormControl(null)
+      })
+    });
 
  
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private studentService: StudentService,
-    private http: HttpClient,
-    
-  ) { 
-    this.createForm();
-    }
 
-  createForm(){
-    this.form = this.formBuilder.group({
-      email : ['', Validators.compose([
-         Validators.required, Validators.email,
-      ])],
-      fullName:['', Validators.compose([
-        Validators.required
-      ])],
-      fatherName:['', Validators.compose([
-        Validators.required
-      ])],
-      motherName: ['',Validators.compose([
-        Validators.required
-      ])],
-      mobilenumber: ['',Validators.compose([
-        Validators.required
-      ])],
-      Gender: ['', Validators.compose([
-        Validators.required
-      ])],
-      file:[null, Validators.required]
+  
+  
 
-})
-
-  }
-
-  onSubmit(){
-    const student = {
-      email: this.form.get('email').value,
-      fullName: this.form.get('fullName').value,
-      motherName: this.form.get('motherName').value,
-      fatherName: this.form.get('fatherName').value,
-      mobilenumber: this.form.get('mobilenumber').value,
-      file: this.selectedFile
 }
-this.studentService.getDetails( toFormData(student)).subscribe(data =>{
-      
-     this.studentDetails = data;
-      if (!this.studentDetails.success) {
-        this.messageClass = 'alert alert-danger'; // Set an error class
-        this.message = this.studentDetails.message; // Set an error message
-        } else {
-        this.messageClass = 'alert alert-success'; // Set a success class
-        this.message = this.studentDetails.message; // Set a success message
-        
-        this.router.navigate(['/home']);
-      }
-    })
-  }
-
-
-  onFileChange(event){
-if (event.target.files && event.target.files.length) {
-    const [selectedFile] = event.target.files;
-     this.selectedFile = selectedFile;
-    }
-
-  
-  
-
-  }
-  
-
-  ngOnInit() {  }
-
-  
-  
-
 }

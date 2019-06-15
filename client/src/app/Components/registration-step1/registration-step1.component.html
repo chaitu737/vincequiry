@@ -1,0 +1,26 @@
+<div id="personal-details" [formGroup]="regForm">
+    <div class="form-group col-md-4" formGroupName="personalDetails">
+      <label>FullName:</label>
+      <input type="text" class="form-control" formControlName="fullName" required>
+    </div>
+    <br>
+    <div class="form-group col-md-4" formGroupName="personalDetails">
+      <label>FatherName:</label>
+      <input type="text" class="form-control" formControlName="fatherName" required>
+    </div>
+    <br>
+    <div class="form-group col-md-4" formGroupName="personalDetails">
+      <label>MotherName:</label>
+    <input type="text" class="form-control" formControlName="motherName" required>
+    </div>
+  <br>  
+    <div class="form-group col-md-4" formGroupName="personalDetails">
+        <label>Choose a File:&nbsp;</label>
+
+        <input type="file" (change)="onFileChange($event)" class="form-control" formControlName="file">
+      </div>
+  </div>
+  <br/>
+  <mat-dialog-actions>
+  <button mat-button  matStepperNext (click)="step1Submitted()">Next</button>
+  </mat-dialog-actions>

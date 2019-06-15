@@ -4,6 +4,9 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
+  "include": [
+    "node_modules/angular4-carousel/index.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

@@ -1,6 +1,6 @@
-<h1 class="page-header">Student Enquiry Form</h1>
+<!-- <h1 class="page-header">Student Enquiry Form</h1>
 
-<!-- Custom Success/Error Message -->
+ <!- Custom Success/Error Message -->
 <div class="row show-hide-message">
   <div [ngClass]="messageClass">
     {{ message }}
@@ -9,78 +9,120 @@
 
 
 
-<div class="example-container">
-    <form class="example-container" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-   <input matInput placeholder="Enter your email" formControlName="email" >
-   <mat-error *ngIf="form.controls['email'].errors?.email && !form.controls['email'].errors?.required">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="form.controls['email'].errors?.required">
-      Email is <strong>required</strong>
-    </mat-error>
-     </mat-form-field>
+  <!-- <mat-horizontal-stepper #stepper linear>
+  <mat-step formGroupName="personalDetails" [stepControl]="fullName">
+   <ng-template matStepLabel>FullName</ng-template>
+    <mat-form-field>
+     <input matInput placeholder="Enter your fullName" formControlName="fullName"  required>
+   </mat-form-field>
+       <div>
+          
+         <button mat-button matStepperNext type="button">Next</button> 
 
-  <mat-form-field>
-    <input matInput placeholder="Enter your fullname" formControlName="fullName" required>
+        </div>
     
-  </mat-form-field>
+    </mat-step> -->
+    
+    <!-- <mat-step formGroupName="personalDetails" [stepControl]="personalDetails">
+   
+        <ng-template matStepLabel>fatherName</ng-template>
+      <mat-form-field>
+       <input matInput placeholder="Enter your fatherName" formControlName="fatherName"  required>
+     </mat-form-field>
+         <div>
+            <button mat-button matStepperPrevious>Back</button>
+           <button mat-button matStepperNext type="button">Next</button> 
   
+          </div>
+    
+      </mat-step> -->
+
+
+
+      <!-- <mat-step formGroupName="contactDetails" [stepControl]="contactDetails">
+   
+    <ng-template matStepLabel>Email</ng-template>
   <mat-form-field>
-    <input matInput placeholder="Enter your fathername" formControlName="fatherName" required>
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput placeholder="Enter your mothername" formControlName="motherName" required>
-  </mat-form-field>
-
-<mat-form-field>
-  <input  matInput placeholder="Enter your mobilenumber" type="number" formControlName="mobilenumber" required>
-</mat-form-field>
-
-<label>Gender: </label>
-      <mat-radio-group formControlName="Gender">
-        <mat-radio-button value="male">Male</mat-radio-button>
-        <mat-radio-button value="female">Female</mat-radio-button>
-        <mat-radio-button value="others">Others</mat-radio-button>
-      </mat-radio-group>
-
-  <mat-form-field>
-    <textarea matInput placeholder="Textarea"></textarea>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-select placeholder="Select">
-      <mat-option value="option">Option</mat-option>
-      <mat-option value="AI">AI</mat-option>
-      <mat-option value="IOT">IOT</mat-option>
-      <mat-option value="BlockChain">BlockChain</mat-option> 
-    </mat-select>
-  </mat-form-field>
-
-
-  <input type="file" (change)="onFileChange($event)" />
+   <input matInput placeholder="Enter your email" formControlName="email"  name="email" required>
   
-
-  <br>
-  <div class="example-button-row">
-    <button type="submit" mat-raised-button color="primary">Register</button>
-  </div>
-
-
-</form>
-  <div>
-    <div>
-
-       
-      <!-- <input type="file" (change)="createFormData($event)">
-    </div>
-    <button (click)="upload()">Upload</button>
-  </div> -->
+     </mat-form-field>
+     <div>
+       <button mat-button matStepperNext type="button">Next</button>
+      </div>
+  
+  </mat-step> -->
 
 
-<br>
-<br>
+      <!-- <mat-step formGroupName="contactDetails" [stepControl]="contactDetails">
+   
+          <ng-template matStepLabel>Mobilenumber</ng-template>
+        <mat-form-field>
+         <input matInput placeholder="Enter your Mobilenumber" type="number" formControlName="mobilenumber"  required>
+       </mat-form-field>
+           <div>
+              <button mat-button matStepperPrevious>Back</button>
+             <button mat-button matStepperNext type="button">Next</button> 
+    
+            </div>
+        
+        </mat-step> -->
 
 
-</div>
+
+      
+      <!-- <mat-step>
+          <ng-template matStepLabel>Confirm your information</ng-template>
+          Everything seems correct.
+          <div>
+            <button type="submit" mat-raised-button color="warn" (click)="onSubmit()">Done</button>
+            <button type="button" mat-button (click)="linearVerticalStepper.reset()">Reset</button>
+          </div>
+        </mat-step> -->
+  
+<!-- </mat-horizontal-stepper>
+</form> -->
+  <!-- <mat-step [stepControl]="email">
+    <form  [formGroup]="form">
+      <ng-template matStepLabel>FULLNAME</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Enter your fullname" formControlName="fullNameFormCtrl" required>
+      </mat-form-field>
+              <div>
+              <button mat-button matStepperPrevious type="">Back</button>
+              <button mat-button matStepperNext type="button">Next</button>
+            </div>
+            </form>
+        </mat-step> --> 
+
+
+        <div style="text-align:center">
+            </div>
+          <div id="registration" class="conatiner col-md-12">
+            <form id="regForm" [formGroup]="registrationForm">
+              <mat-horizontal-stepper #stepper linear>
+                <mat-step formGroupName="personalDetails" 
+                  [stepControl]="registrationForm.get('personalDetails')">
+                  <ng-template matStepLabel>Enter Personal Details</ng-template>
+                  <app-registration-step1 [regForm]="registrationForm"></app-registration-step1>
+                </mat-step>
+                <mat-step formGroupName="contactDetails"
+                [stepControl]="registrationForm.get('contactDetails')">
+                  <ng-template matStepLabel>Enter Contact Details</ng-template>
+                  <app-registration-step2 [regForm]="registrationForm"></app-registration-step2>
+                </mat-step>
+        
+                <mat-step formGroupName="EducationalDetails"
+                [stepControl]="registrationForm.get('EducationalDetails')">
+                  <ng-template matStepLabel>Enter Educational Qualifications </ng-template>
+                  <app-registration-step4 [regForm]="registrationForm"></app-registration-step4>
+                </mat-step>
+
+                <mat-step>
+                  <ng-template matStepLabel>Confirm Details</ng-template>
+                  <app-registration-step3 [regForm]="registrationForm"></app-registration-step3>
+                 </mat-step>
+           
+
+              </mat-horizontal-stepper>
+            </form>
+          </div>
