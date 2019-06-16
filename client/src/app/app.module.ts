@@ -5,16 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import {ReactiveFormsModule, FormsModule  } from "@angular/forms";
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule } from "@angular/material";
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import {MatStepperModule} from '@angular/material/stepper';
-import { RegistrationStep1Component } from './Components/registration-step1/registration-step1.component';
 import { RegistrationStep2Component } from './Components/registration-step2/registration-step2.component';
 import { RegistrationStep3Component } from './Components/registration-step3/registration-step3.component';
 import { RegistrationStep4Component } from './Components/registration-step4/registration-step4.component';
-import   { CarouselModule} from 'angular4-carousel';
+import { RegistrationStep1Component  } from './Components/registration-step1/registration-step1.component';
+import { CarouselModule} from 'ngx-owl-carousel-o';
+import { StudentService } from './Services/student.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import   { CarouselModule} from 'angular4-carousel';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
+   ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -37,12 +38,11 @@ import   { CarouselModule} from 'angular4-carousel';
     MatRadioModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
     MatStepperModule,
     MatDialogModule,
-    CarouselModule
+     CarouselModule
   ],
-  providers: [],
+  providers: [StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

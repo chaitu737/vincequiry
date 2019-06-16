@@ -3,8 +3,11 @@
   </div>
   <div *ngIf="!formSubmitted">
     <h4>Following details submitted, please confirm and hit submit</h4>
-    <br/>Name: {{regForm.get('personalDetails').get('fullName').value}} 
+    <br/>FullName: {{regForm.get('personalDetails').get('fullName').value}} 
+    <br>
       fatherName:{{regForm.get('personalDetails').get('fatherName').value}}
+      <br>
+      MotherName:{{regForm.get('personalDetails').get('motherName').value}}
     <br/>Email : {{regForm.get('contactDetails').get('email').value}}
     <br/>Phone :{{regForm.get('contactDetails').get('mobilenumber').value}}
     <br/>

@@ -1,4 +1,4 @@
-.container{
+/* .container{
     height: 40em;
     background-size: cover;
     width: auto;
@@ -61,4 +61,9 @@ h2{
     top:50%;
     left: 50%;
 
+} */
+
+.owl-item{
+  width: 100%;
+  height: calc(100vh - 58px) !important;
 }
